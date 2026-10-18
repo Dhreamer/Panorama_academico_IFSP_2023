@@ -287,7 +287,7 @@ ORDER BY arquivo, cod_unidade, nome_de_curso;
 SELECT *
 FROM pnp_raw.matriculas_2023
 WHERE co_inst = '26439'
-	AND TRIM(vagas_regulares_l13) = '-1'
+	AND TRIM(vagas_regulares_l13) = '-1';
 
 
 -- VERIFICANDO COLUNA MUNICIPIO
