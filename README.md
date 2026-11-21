@@ -12,15 +12,34 @@ Separei a análise em dois blocos: **Matrículas em 2023** e **Resultados dos ci
 
 O relatório permite filtrar os resultados por campus, tipo de curso, eixo tecnológico, curso, oferta e modalidade de ensino.
 
-## Perguntas respondidas
+## Perguntas de negócio
 
-- Quantas matrículas fazem parte do recorte anual analisado?
-- Como essas matrículas se distribuem entre conclusão, abandono, reprovação, transferência e outras situações?
-- Qual é a participação de cada situação no total de matrículas do recorte?
-- Como os registros da base de eficiência se distribuem entre concluídos, concluintes, em curso e evadidos?
-- Quantos registros possuem desfecho, considerando a definição utilizada no projeto?
-- Quais situações compõem o grupo de evadidos e qual é a participação de cada uma?
-- Como esses resultados mudam ao selecionar diferentes campi e cursos?
+O projeto foi desenvolvido a partir de dez perguntas de negócio, organizadas em três grupos de análise.
+
+### Matrículas em 2023
+
+1. Quantas matrículas compõem o recorte anual analisado do IFSP em 2023?
+2. Como as matrículas se distribuem entre as situações, considerando quantidades, percentuais e as maiores e menores ocorrências?
+3. Como a distribuição das matrículas varia conforme campus, tipo de curso, eixo tecnológico, curso, oferta e modalidade?
+
+### Resultados dos ciclos
+
+4. Como os registros de Eficiência Acadêmica se distribuem entre Evadidos, Concluídos, Concluintes e Em Curso, em quantidade e percentual?
+5. Quantos registros possuem desfecho e qual é seu percentual em relação ao total da base?
+6. Quais situações compõem o grupo de Evadidos e qual é a participação de cada uma dentro desse grupo?
+7. Como os resultados da Eficiência Acadêmica variam conforme campus, tipo de curso, eixo tecnológico, curso, oferta e modalidade?
+8. Como os registros com desfecho se dividem entre Evadidos e Concluídos?
+9. Como se distribuem os registros que não entram no indicador Com Desfecho?
+
+### Comparação entre as bases
+
+10. Os padrões de distribuição das situações são semelhantes entre a base anual e a base de eficiência?
+
+## Relatório executivo
+
+O projeto conta com um relatório executivo complementar, que apresenta o detalhamento das análises, os resultados encontrados e as interpretações das dez perguntas de negócio.
+
+- [Acessar o Relatório Executivo completo (PDF)](./Documenta%C3%A7%C3%A3o/Relatorio_Executivo_Panorama_Academico_IFSP_2023.pdf)
 
 ## Dados utilizados
 
@@ -54,7 +73,7 @@ Importei os arquivos no PostgreSQL e conferi as quantidades de registros, os có
 
 Também verifiquei campos vazios, formatos de datas, datas de início e fim dos ciclos, correspondência entre códigos e nomes dos campi e consistência das informações dos ciclos.
 
-Na estrutura importada, identifiquei uma coluna chamada `municipio` que continha regiões e uma coluna `regiao` que repetia o nome da instituição. Após a conferência, removi a coluna repetida e renomeei a coluna com os valores de região.
+Na estrutura importada, identifiquei uma coluna chamada \`municipio\` que continha regiões e uma coluna \`regiao\` que repetia o nome da instituição. Após a conferência, removi a coluna repetida e renomeei a coluna com os valores de região.
 
 O arquivo SQL também preserva consultas exploratórias sobre idade, vagas e carga horária. Esses campos foram investigados durante o aprendizado, mas não fazem parte dos indicadores do dashboard final.
 
@@ -62,8 +81,8 @@ O arquivo SQL também preserva consultas exploratórias sobre idade, vagas e car
 
 Organizei os dados em dois schemas:
 
-- **`pnp_raw`:** tabelas de importação utilizadas nas consultas exploratórias.
-- **`pnp`:** tabelas preparadas do IFSP e a view utilizada no recorte anual.
+- **\`pnp_raw\`:** tabelas de importação utilizadas nas consultas exploratórias.
+- **\`pnp\`:** tabelas preparadas do IFSP e a view utilizada no recorte anual.
 
 Nas tabelas preparadas, selecionei os campos necessários e converti o ano e as datas para os tipos adequados.
 
@@ -75,7 +94,7 @@ Na base anual, identifiquei **460 registros com pendências temporais**:
 | Entrada anterior a 2024, mas situação datada de 2024 | 2 |
 | Total excluído da análise anual | 460 |
 
-Como não havia informação suficiente para corrigir essas datas, mantive os registros na tabela preparada e criei a view `pnp.matriculas_ifsp_2023_analise` para excluí-los dos indicadores anuais.
+Como não havia informação suficiente para corrigir essas datas, mantive os registros na tabela preparada e criei a view \`pnp.matriculas_ifsp_2023_analise\` para excluí-los dos indicadores anuais.
 
 Esse tratamento resultou em **77.098 matrículas**. O mesmo filtro não foi aplicado à base de eficiência acadêmica, que possui um recorte diferente.
 
@@ -105,7 +124,7 @@ Também criei uma tabela **Métricas**, com as medidas organizadas em pastas con
 
 Criei medidas para calcular totais, percentuais e textos dinâmicos utilizados nos cartões, gráficos e dicas de ferramenta.
 
-Entre os recursos utilizados estão `COUNTROWS`, `CALCULATE`, `DIVIDE`, `REMOVEFILTERS`, `SELECTEDVALUE` e `FORMAT`.
+Entre os recursos utilizados estão \`COUNTROWS\`, \`CALCULATE\`, \`DIVIDE\`, \`REMOVEFILTERS\`, \`SELECTEDVALUE\` e \`FORMAT\`.
 
 Nos percentuais, mantive a base de comparação correspondente a cada análise:
 
@@ -156,21 +175,23 @@ As imagens mostram as páginas de configuração sem uma seleção específica. 
 
 | Arquivo ou pasta | Conteúdo |
 |---|---|
-| [Dashboard](./Dashboard/) | Relatório em formato `.pbix` |
+| [Dashboard](./Dashboard/) | Relatório em formato \`.pbix\` |
 | [SQL](./SQL/) | Consultas de exploração, verificação e preparação dos dados |
 | [Imagens](./Imagens/) | Capturas do dashboard, modelo de dados e tooltips |
+| [Documentação](./Documenta%C3%A7%C3%A3o/) | Relatório executivo completo e documentação complementar |
 | README.md | Documentação do projeto |
 
 ## Arquivos do projeto
 
 - [Baixar o relatório em Power BI](./Dashboard/1%20-%20Panorama%20Acad%C3%AAmico%20do%20IFSP%20%E2%80%94%202023.pbix)
 - [Visualizar o script SQL](./SQL/Querys%20completas%20-%20Projeto%20IFSP_2023.sql)
+- [Acessar o Relatório Executivo completo (PDF)](./Documenta%C3%A7%C3%A3o/Relatorio_Executivo_Panorama_Academico_IFSP_2023.pdf)
 - [Consultar os microdados de Matrículas no MEC](https://dadosabertos.mec.gov.br/pnp/item/260-2023-microdados-matriculas)
 - [Consultar os microdados de Eficiência Acadêmica no MEC](https://dadosabertos.mec.gov.br/pnp/item/261-2023-microdados-eficiencia-academica)
 
 ## Como abrir o projeto
 
-1. Baixe o arquivo `.pbix` disponível na pasta **Dashboard**.
+1. Baixe o arquivo \`.pbix\` disponível na pasta **Dashboard**.
 2. Abra o arquivo no **Power BI Desktop**.
 3. Explore os filtros, gráficos, tabela e dicas de ferramenta.
 
@@ -182,10 +203,10 @@ Para **atualizar os dados**, é necessário preparar o banco no seu próprio amb
 
 O script SQL registra as etapas executadas durante o projeto e deve ser utilizado **por blocos, na ordem apresentada**. A importação dos CSVs foi realizada pelo pgAdmin e não está automatizada no script.
 
-1. Instale PostgreSQL e pgAdmin e crie um banco, como `pnp_ifsp_2023`.
+1. Instale PostgreSQL e pgAdmin e crie um banco, como \`pnp_ifsp_2023\`.
 2. Baixe os dois arquivos nas fontes oficiais indicadas e extraia os CSVs.
-3. Abra o script da pasta **SQL** e execute somente o bloco inicial de criação dos schemas e das duas tabelas `pnp_raw`, antes de **CONFERINDO TABELAS**.
-4. Importe cada CSV na tabela correspondente: Matrículas em `pnp_raw.matriculas_2023` e Eficiência Acadêmica em `pnp_raw.eficiencia_2023`. Na importação usada no projeto, o formato é CSV, a codificação é UTF-8, o delimitador é ponto e vírgula, há cabeçalho e o caractere de aspas é `"`.
+3. Abra o script da pasta **SQL** e execute somente o bloco inicial de criação dos schemas e das duas tabelas \`pnp_raw\`, antes de **CONFERINDO TABELAS**.
+4. Importe cada CSV na tabela correspondente: Matrículas em \`pnp_raw.matriculas_2023\` e Eficiência Acadêmica em \`pnp_raw.eficiencia_2023\`. Na importação usada no projeto, o formato é CSV, a codificação é UTF-8, o delimitador é ponto e vírgula, há cabeçalho e o caractere de aspas é \`"\`.
 5. Confira a ordem e a quantidade das colunas antes de importar: a associação é feita pela posição, não pelo nome do cabeçalho.
 6. Continue a partir de **CONFERINDO TABELAS**, executando e examinando os resultados dos blocos até a criação das tabelas preparadas e da view final.
 7. Confira os totais esperados: **77.558** na tabela preparada de matrículas, **77.098** na view de análise e **41.703** na tabela de eficiência.
